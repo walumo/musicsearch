@@ -7,6 +7,27 @@ namespace musicsearch.Http
 {
     public static class api
     {
+        public static async Task<string> GetGeniusAsync()
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://api.genius.com/search?q=finished%20with%20my%20woman"),
+                Headers =
+                    {
+                        { "Authorization", "Bearer cSHsluz4Dz3jW1maa1FyhoFSFKmDrh2uZiEpFhyFIX2VUib6yQfyuLH5DpoVfvss" },
+                    },
+            };
+            using (var response = await client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                return body;
+            }
+        }
+
+        
         public static async Task<string> GetSpotifyAsync(string uri)
         {
             var clientHandler = new HttpClientHandler
