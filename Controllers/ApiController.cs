@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using musicsearch.Models;
 
 namespace musicsearch.Controllers
 {
@@ -29,9 +30,10 @@ namespace musicsearch.Controllers
         }
         [HttpGet]
         [Route("genius")]
-        public async Task<string> GetGeniusData()
+        public string GetGeniusData()
         {
-            var data = await api.GetGeniusAsync();
+            //var data = await api.GetGeniusAsync();
+            var data = DataModel.setNewObj();
             return data;
         }
     }
