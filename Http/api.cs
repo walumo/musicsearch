@@ -31,7 +31,10 @@ namespace musicsearch.Http
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
                 GeniusSongs result = JsonSerializer.Deserialize<GeniusSongs>(body);
-                return result.response.hits[0].result.full_title;
+                //return result.response.hits[0].result.full_title;
+
+                string data = $"{"artistin nimi:"+result.response.hits[0].result.artist_names+ "biisin nimi:"+result.response.hits[0].result.title}";
+                return data;
             }
         }
 
