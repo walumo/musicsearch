@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using musicsearch.Models;
 
 namespace musicsearch.Controllers
 {
@@ -27,12 +28,21 @@ namespace musicsearch.Controllers
             var data = await api.GetSpotifyAsync("https://api.spotify.com/v1/search?q=thriller&type=track");
             return data;
         }
+
         [HttpGet]
         [Route("genius")]
-        public async Task<string> GetGeniusData()
+        public string GetGeniusData()
         {
-            var data = await api.GetGeniusAsync();
+            //var data = await api.GetGeniusAsync();
+            var data = DataModel.setNewObj();
             return data;
         }
+        /* Endpoint käyttäjälle
+        [HttpGet]
+        [Route]
+        public string GetAllData()
+        {
+
+        }*/
     }
 }
