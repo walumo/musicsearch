@@ -41,7 +41,7 @@ namespace musicsearch.Http
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("https://api.spotify.com/v1/search?q=thriller&type=track"),
+                RequestUri = new Uri(uri),
                 Headers =
                     {
                         { "Authorization", "Bearer BQBsAtZIEoLc3LNWp19V6KDPOMYhLP3o-QJz-59gZ9PyREC1N6Gnz6Ka2IyykeUwmWcFmKgkBOTKlohdqA99LrGWhUXy5eZt8vfytbGPOBFq8GPu3X6mRlNmKHRYjaWP01FUQZcBuvBh4MhO7rPhGtVXahe-krK2Y5LjI97l3cua" },
