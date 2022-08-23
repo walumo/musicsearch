@@ -32,6 +32,8 @@ namespace musicsearch.Http
                 var body = await response.Content.ReadAsStringAsync();
                 GeniusSongs result = JsonSerializer.Deserialize<GeniusSongs>(body);
                 return result;
+
+
                 //string data = $"{"artistin nimi:" + result.response.hits[0].result.artist_names + "biisin nimi:" + result.response.hits[0].result.title}";
                 //string serialisoitudata = JsonSerializer.Serialize(data);
 
