@@ -36,18 +36,15 @@ namespace musicsearch.Http
         
         public static async Task<string> GetSpotifyAsync(string uri)
         {
-            var clientHandler = new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.GZip,
-            };
-            var client = new HttpClient(clientHandler);
+       
+            var client = new HttpClient();
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(uri),
                 Headers =
                     {
-                        { "Authorization", "Bearer BQAVizlNnAgOTg2ZxcIMKVl2js0wMSxp5ics64r-xopbpvz6M9VbgOqR9Le5lAjh3LPYhqayrqPs11zZF8zOV5s1YuouTPZUyix4Vr2kIs7N-P-wpTU" },
+                        { "Authorization", "Bearer BQBsAtZIEoLc3LNWp19V6KDPOMYhLP3o-QJz-59gZ9PyREC1N6Gnz6Ka2IyykeUwmWcFmKgkBOTKlohdqA99LrGWhUXy5eZt8vfytbGPOBFq8GPu3X6mRlNmKHRYjaWP01FUQZcBuvBh4MhO7rPhGtVXahe-krK2Y5LjI97l3cua" },
                     },
             };
             using (var response = await client.SendAsync(request))
