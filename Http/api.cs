@@ -34,7 +34,8 @@ namespace musicsearch.Http
                 //return result.response.hits[0].result.full_title;
 
                 string data = $"{"artistin nimi:"+result.response.hits[0].result.artist_names+ "biisin nimi:"+result.response.hits[0].result.title}";
-                return data;
+                string serialisoitudata= JsonSerializer.Serialize(data);
+                return JsonSerializer.Deserialize<string>(serialisoitudata);
             }
         }
 
