@@ -18,27 +18,29 @@ namespace musicsearch.Models
 
         public static string setNewObj()
         {
-            DataModel newOlio = new DataModel();
+           
             var result = api.GetGeniusAsync();
 
-            List<DataModel> Geniuslist = new List<DataModel>
-            {
-                
-            };
+            List<DataModel> Geniuslist = new List<DataModel>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
-                newOlio.ArtistinNimi = result.Result.response.hits[i].result.artist_names;
+                DataModel newOlio = new DataModel();
+                newOlio.ArtistinNimi = result.Result.response.hits[i].result.artist_names; //exception jos on tuloksia alle 5 tai 0
                 newOlio.BiisinNimi = result.Result.response.hits[i].result.title;
                 newOlio.Image = result.Result.response.hits[i].result.header_image_url;
                 newOlio.Hotti = result.Result.response.hits[i].result.stats.hot;
-                newOlio.JulkaisuVuosi = result.Result.response.hits[i].result.release_date_components.year;
+                newOlio.JulkaisuVuosi = result.Result.response.hits[i].result.release_date_components.year; //exception jos on null
 
                 Geniuslist.Add(newOlio);
             }
-
             return JsonSerializer.Serialize(Geniuslist);
         }
+    }
+
+    public class SpotifyDataModel
+    {
+
     }
 }
 

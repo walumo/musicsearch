@@ -28,6 +28,7 @@ namespace musicsearch.Controllers
             var data = await api.GetSpotifyAsync("https://api.spotify.com/v1/search?q=thriller&type=track");
             return data;
         }
+
         [HttpGet]
         [Route("genius")]
         public string GetGeniusData()
@@ -36,5 +37,12 @@ namespace musicsearch.Controllers
             var data = DataModel.setNewObj();
             return data;
         }
+        /* Endpoint käyttäjälle
+        [HttpGet]
+        [Route]
+        public string GetAllData()
+        {
+
+        }*/
     }
 }
