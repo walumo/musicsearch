@@ -26,7 +26,7 @@ namespace musicsearch.Models
             newOlio.JulkaisuVuosi = result.Result.response.hits[0].result.release_date_components.year;
 
             var tulos = $"{newOlio.ArtistinNimi}\n{newOlio.BiisinNimi}\n{newOlio.Image}\n{newOlio.Hotti}\n{newOlio.JulkaisuVuosi}";
-            return tulos;
+            return JsonSerializer.Serialize(newOlio);
         }
     }
 
