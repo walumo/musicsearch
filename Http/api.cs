@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IdentityModel.Client;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -38,22 +39,26 @@ namespace musicsearch.Http
         
         public static async Task<string> GetSpotifyAsync(string uri)
         {
-       
             var client = new HttpClient();
+            var token = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = "https://accounts.spotify.com/api/token",
+                ClientId = "9ff81ac53e1a4aebbdaae52df059499a",
+                ClientSecret = "dc34328e3a37437e87e010dd0c91d847",
+                GrantType  = "client_credentials"
+            });
+
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(uri),
-                Headers =
-                    {
-                        { "Authorization", "Bearer BQBsAtZIEoLc3LNWp19V6KDPOMYhLP3o-QJz-59gZ9PyREC1N6Gnz6Ka2IyykeUwmWcFmKgkBOTKlohdqA99LrGWhUXy5eZt8vfytbGPOBFq8GPu3X6mRlNmKHRYjaWP01FUQZcBuvBh4MhO7rPhGtVXahe-krK2Y5LjI97l3cua" },
-                    },
+                Headers = {{ "Authorization", $"Bearer {token.AccessToken}" }}
             };
+            
             using (var response = await client.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-                return body;
+                return token.AccessToken + body;
             }
         }
     }
