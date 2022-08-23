@@ -12,15 +12,19 @@ namespace musicsearch.Models
         public string ArtistinNimi { get; set; }
         public string BiisinNimi { get; set; }
         public string Image { get; set; }
-        public bool Hotti { get; set; }
+        public bool Hotti { get; set; } 
         public int JulkaisuVuosi { get; set; }
+
 
         public static string setNewObj()
         {
             DataModel newOlio = new DataModel();
             var result = api.GetGeniusAsync();
 
-            var tulos = "";
+            List<DataModel> Geniuslist = new List<DataModel>
+            {
+                
+            };
 
             for (int i = 0; i < 5; i++)
             {
@@ -30,10 +34,10 @@ namespace musicsearch.Models
                 newOlio.Hotti = result.Result.response.hits[i].result.stats.hot;
                 newOlio.JulkaisuVuosi = result.Result.response.hits[i].result.release_date_components.year;
 
-                tulos += $"{newOlio.ArtistinNimi}\n{newOlio.BiisinNimi}\n{newOlio.Image}\n{newOlio.Hotti}\n{newOlio.JulkaisuVuosi}\n\n";
+                Geniuslist.Add(newOlio);
             }
 
-            return tulos;
+            return JsonSerializer.Serialize(Geniuslist);
         }
     }
 }
