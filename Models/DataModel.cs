@@ -40,7 +40,10 @@ namespace musicsearch.Models
 
     public class SpotifyDataModel
     {
-
+        public string artisti { get; set; } //artists nimellä löytyy jsonista
+        public string biisinimi { get; set; }
+        public string biisilinkki { get; set; } 
+        public string albumi { get; set; } //name sisältö on albumin nimi
     }
 }
 
