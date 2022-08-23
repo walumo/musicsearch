@@ -58,7 +58,7 @@ namespace musicsearch.Http
             using (var response = await client.SendAsync(request))
             {
                 var body = await response.Content.ReadAsStringAsync();
-                return token.AccessToken + body;
+                return body;
             }
         }
     }
