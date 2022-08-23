@@ -8,7 +8,7 @@ namespace musicsearch.Http
 {
     public static class api
     {
-        public static async Task<string> GetGeniusAsync()
+        public static async Task<GeniusSongs> GetGeniusAsync()
         {
             var clientHandler = new HttpClientHandler
             {
@@ -31,11 +31,13 @@ namespace musicsearch.Http
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
                 GeniusSongs result = JsonSerializer.Deserialize<GeniusSongs>(body);
-                //return result.response.hits[0].result.full_title;
+                return result;
 
-                string data = $"{"artistin nimi:"+result.response.hits[0].result.artist_names+ "biisin nimi:"+result.response.hits[0].result.title}";
-                string serialisoitudata= JsonSerializer.Serialize(data);
-                return JsonSerializer.Deserialize<string>(serialisoitudata);
+
+                //string data = $"{"artistin nimi:" + result.response.hits[0].result.artist_names + "biisin nimi:" + result.response.hits[0].result.title}";
+                //string serialisoitudata = JsonSerializer.Serialize(data);
+
+
             }
         }
 
