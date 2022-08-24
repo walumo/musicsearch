@@ -13,7 +13,6 @@ namespace musicsearch.Controllers
     [Route("[controller]")]
     public class ApiController : ControllerBase
     {
-
         private readonly ILogger<ApiController> _logger;
 
         public ApiController(ILogger<ApiController> logger)
@@ -25,9 +24,7 @@ namespace musicsearch.Controllers
         [Route("songs")]
         public async Task<string> GetGeniusData(string q)
         {
-            
             return await GeniusDataModel.GetAllDataAsStrincAsync(q);
         }
-        
     }
 }
