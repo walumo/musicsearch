@@ -12,17 +12,17 @@ namespace musicsearch.Models
         public string Track { get; set; }
         public string Image { get; set; }
         public bool Hot { get; set; }
-        public int ReleaseYear { get; set; }
+        //public int? ReleaseYear { get; set; }
         public string WebPlayerUrl { get; set; }
         public string EmbedUri { get; set; }
         public string Album { get; set; }
 
 
 
-        public static async Task<string> GetAllDataAsStrincAsync()
+        public static async Task<string> GetAllDataAsStrincAsync(string searchString)
         {
 
-            var result = api.GetGeniusAsync();
+            var result = api.GetGeniusAsync(searchString);
 
             List<GeniusDataModel> geniusList = new List<GeniusDataModel>();
 
@@ -34,7 +34,7 @@ namespace musicsearch.Models
                 newOlio.Track = result.Result.response.hits[i].result.title;
                 newOlio.Image = result.Result.response.hits[i].result.header_image_url;
                 newOlio.Hot = result.Result.response.hits[i].result.stats.hot;
-                newOlio.ReleaseYear = result.Result.response.hits[i].result.release_date_components.year; //exception jos on null
+                //newOlio.ReleaseYear = result.Result.response.hits[i].result.release_date_components.year; //exception jos on null
 
                 geniusList.Add(newOlio);
             }

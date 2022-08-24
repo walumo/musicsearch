@@ -22,10 +22,11 @@ namespace musicsearch.Controllers
         }
 
         [HttpGet]
-        [Route("genius")]
-        public async Task<string> GetGeniusData()
+        [Route("songs")]
+        public async Task<string> GetGeniusData(string q)
         {
-            return await GeniusDataModel.GetAllDataAsStrincAsync();
+            
+            return await GeniusDataModel.GetAllDataAsStrincAsync(q);
         }
         
     }

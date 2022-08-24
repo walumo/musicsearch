@@ -53,9 +53,9 @@
 
     public class Release_Date_Components
     {
-        public int year { get; set; }
-        public int month { get; set; }
-        public int day { get; set; }
+        public int? year { get; set; }
+        public int? month { get; set; }
+        public int? day { get; set; }
     }
 
     public class Stats

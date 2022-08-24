@@ -11,19 +11,20 @@ namespace musicsearch.Http
 {
     public static class api
     {
-        public static async Task<GeniusJSON> GetGeniusAsync()
+        public static async Task<GeniusJSON> GetGeniusAsync(string searchString)
         {
             HttpClientHandler clientHandler = new HttpClientHandler
             {
                 UseCookies = false,
                 AutomaticDecompression = DecompressionMethods.GZip,
             };
-
+            Uri searchUri = new Uri(@"https://api.genius.com/search?q=" + searchString);
             HttpClient client = new HttpClient(clientHandler);
             HttpRequestMessage request = new HttpRequestMessage
             {
+                
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("https://api.genius.com/search?q=thriller"),
+                RequestUri =searchUri,
                 Headers =
                     {
                         { "cookie", "desired_location=https%253A%252F%252Fapi.genius.com%252Foauth%252Fauthorize; flash=%257B%257D; _csrf_token=0tyaBKoN382UVdHYzu5Ht2GXqDV%252BUvMP048zUmjMmlk%253D; _rapgenius_session=BAh7BzoPc2Vzc2lvbl9pZEkiJTFmNjNhNTYwMGEyZDE3MmFhNmVlZjUzMDFjZjJiZDk3BjoGRUY6EF9jc3JmX3Rva2VuSSIxMHR5YUJLb04zODJVVmRIWXp1NUh0MkdYcURWK1V2TVAwNDh6VW1qTW1saz0GOwZG--7d1a4faf0e4e4fc7c0b5ef2a5ffa3086143cf9d4; _genius_ab_test_cohort=30; _genius_ab_test_song_recommendations_v2=mixpanel" },
