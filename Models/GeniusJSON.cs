@@ -1,7 +1,7 @@
 ﻿namespace musicsearch.Http
 {
 
-    public class GeniusSongs
+    public class GeniusJSON
     {
         public Meta meta { get; set; }
         public Response response { get; set; }
@@ -53,9 +53,9 @@
 
     public class Release_Date_Components
     {
-        public int year { get; set; }
-        public int month { get; set; }
-        public int day { get; set; }
+        public int? year { get; set; }
+        public int? month { get; set; }
+        public int? day { get; set; }
     }
 
     public class Stats

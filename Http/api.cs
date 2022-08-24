@@ -1,5 +1,7 @@
 ﻿using IdentityModel.Client;
+using musicsearch.Models;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -9,19 +11,20 @@ namespace musicsearch.Http
 {
     public static class api
     {
-        public static async Task<GeniusSongs> GetGeniusAsync()
+        public static async Task<GeniusJSON> GetGeniusAsync(string searchString)
         {
             HttpClientHandler clientHandler = new HttpClientHandler
             {
                 UseCookies = false,
                 AutomaticDecompression = DecompressionMethods.GZip,
             };
-
+            Uri searchUri = new Uri(@"https://api.genius.com/search?q=" + searchString);
             HttpClient client = new HttpClient(clientHandler);
             HttpRequestMessage request = new HttpRequestMessage
             {
+                
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("https://api.genius.com/search?q=Viilt%C3%A4%C3%A4%20sanat%20syvemp%C3%A4%C3%A4n%20Ohi%20kiit%C3%A4%C3%A4%20tunnit%20kuin%20itsest%C3%A4%C3%A4n"),
+                RequestUri =searchUri,
                 Headers =
                     {
                         { "cookie", "desired_location=https%253A%252F%252Fapi.genius.com%252Foauth%252Fauthorize; flash=%257B%257D; _csrf_token=0tyaBKoN382UVdHYzu5Ht2GXqDV%252BUvMP048zUmjMmlk%253D; _rapgenius_session=BAh7BzoPc2Vzc2lvbl9pZEkiJTFmNjNhNTYwMGEyZDE3MmFhNmVlZjUzMDFjZjJiZDk3BjoGRUY6EF9jc3JmX3Rva2VuSSIxMHR5YUJLb04zODJVVmRIWXp1NUh0MkdYcURWK1V2TVAwNDh6VW1qTW1saz0GOwZG--7d1a4faf0e4e4fc7c0b5ef2a5ffa3086143cf9d4; _genius_ab_test_cohort=30; _genius_ab_test_song_recommendations_v2=mixpanel" },
@@ -33,13 +36,13 @@ namespace musicsearch.Http
             {
                 response.EnsureSuccessStatusCode();
                 string body = await response.Content.ReadAsStringAsync();
-                GeniusSongs result = JsonSerializer.Deserialize<GeniusSongs>(body);
+                GeniusJSON result = JsonSerializer.Deserialize<GeniusJSON>(body);
                 return result;
             }
         }
 
         
-        public static async Task<string> GetSpotifyAsync(string uri)
+        public static async Task<SpotifyJSON> GetSpotifyAsync(Uri uri)
         {
             HttpClient client = new HttpClient();
             
@@ -54,14 +57,15 @@ namespace musicsearch.Http
             HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(uri),
+                RequestUri = uri,
                 Headers = {{ "Authorization", $"Bearer {token.AccessToken}" }}
             };
             
             using (HttpResponseMessage response = await client.SendAsync(request))
             {
                 string body = await response.Content.ReadAsStringAsync();
-                return body;
+                SpotifyJSON result = JsonSerializer.Deserialize<SpotifyJSON>(body);
+                return result;
             }
         }
     }
