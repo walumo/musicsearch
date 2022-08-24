@@ -1,7 +1,7 @@
 ﻿namespace musicsearch.Http
 {
 
-    public class GeniusSongs
+    public class GeniusJSON
     {
         public Meta meta { get; set; }
         public Response response { get; set; }

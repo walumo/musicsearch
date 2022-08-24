@@ -1,6 +1,6 @@
 ﻿namespace musicsearch.Http
 {
-    public class SpotifyData
+    public class SpotifyJSON
     {
         public Tracks tracks { get; set; }
     }

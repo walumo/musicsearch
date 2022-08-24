@@ -9,7 +9,7 @@ namespace musicsearch.Http
 {
     public static class api
     {
-        public static async Task<GeniusSongs> GetGeniusAsync()
+        public static async Task<GeniusJSON> GetGeniusAsync()
         {
             HttpClientHandler clientHandler = new HttpClientHandler
             {
@@ -33,7 +33,7 @@ namespace musicsearch.Http
             {
                 response.EnsureSuccessStatusCode();
                 string body = await response.Content.ReadAsStringAsync();
-                GeniusSongs result = JsonSerializer.Deserialize<GeniusSongs>(body);
+                GeniusJSON result = JsonSerializer.Deserialize<GeniusJSON>(body);
                 return result;
             }
         }

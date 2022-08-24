@@ -7,7 +7,7 @@ using musicsearch.Http;
 
 namespace musicsearch.Models
 {
-    public class DataModel
+    public class GeniusDataModel
     {
         public string ArtistinNimi { get; set; }
         public string BiisinNimi { get; set; }
@@ -21,20 +21,20 @@ namespace musicsearch.Models
            
             var result = api.GetGeniusAsync();
 
-            List<DataModel> Geniuslist = new List<DataModel>();
+            List<GeniusDataModel> geniusList = new List<GeniusDataModel>();
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < result.Result.response.hits.Length; i++)
             {
-                DataModel newOlio = new DataModel();
+                GeniusDataModel newOlio = new GeniusDataModel();
                 newOlio.ArtistinNimi = result.Result.response.hits[i].result.artist_names; //exception jos on tuloksia alle 5 tai 0
                 newOlio.BiisinNimi = result.Result.response.hits[i].result.title;
                 newOlio.Image = result.Result.response.hits[i].result.header_image_url;
                 newOlio.Hotti = result.Result.response.hits[i].result.stats.hot;
                 newOlio.JulkaisuVuosi = result.Result.response.hits[i].result.release_date_components.year; //exception jos on null
 
-                Geniuslist.Add(newOlio);
+                geniusList.Add(newOlio);
             }
-            return JsonSerializer.Serialize(Geniuslist);
+            return JsonSerializer.Serialize(geniusList);
         }
     }
 
