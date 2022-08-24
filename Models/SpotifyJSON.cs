@@ -19,7 +19,7 @@
     public class Item
     {
         public Album album { get; set; }
-        public Artist1[] artists { get; set; }
+        public Artist1[] artists { get; set; }  
         public string[] available_markets { get; set; }
         public int disc_number { get; set; }
         public int duration_ms { get; set; }

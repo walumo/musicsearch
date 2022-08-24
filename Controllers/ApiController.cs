@@ -25,9 +25,7 @@ namespace musicsearch.Controllers
         [Route("genius")]
         public async Task<string> GetGeniusData()
         {
-            //var data = await api.GetGeniusAsync();
-            var data = await GeniusDataModel.setNewObj();
-            return data;
+            return await GeniusDataModel.GetAllDataAsStrincAsync();
         }
         
     }

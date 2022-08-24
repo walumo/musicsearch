@@ -41,7 +41,7 @@ namespace musicsearch.Http
         }
 
         
-        public static async Task<SpotifyJSON> GetSpotifyAsync(string uri)
+        public static async Task<SpotifyJSON> GetSpotifyAsync(Uri uri)
         {
             HttpClient client = new HttpClient();
             
@@ -56,7 +56,7 @@ namespace musicsearch.Http
             HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(uri),
+                RequestUri = uri,
                 Headers = {{ "Authorization", $"Bearer {token.AccessToken}" }}
             };
             
