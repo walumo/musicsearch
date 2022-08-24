@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IdentityModel.Client;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
@@ -10,13 +11,14 @@ namespace musicsearch.Http
     {
         public static async Task<GeniusSongs> GetGeniusAsync()
         {
-            var clientHandler = new HttpClientHandler
+            HttpClientHandler clientHandler = new HttpClientHandler
             {
                 UseCookies = false,
                 AutomaticDecompression = DecompressionMethods.GZip,
             };
-            var client = new HttpClient(clientHandler);
-            var request = new HttpRequestMessage
+
+            HttpClient client = new HttpClient(clientHandler);
+            HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri("https://api.genius.com/search?q=Viilt%C3%A4%C3%A4%20sanat%20syvemp%C3%A4%C3%A4n%20Ohi%20kiit%C3%A4%C3%A4%20tunnit%20kuin%20itsest%C3%A4%C3%A4n"),
@@ -26,10 +28,11 @@ namespace musicsearch.Http
                         { "Authorization", "Bearer YATwllDTBMVuLsxnz4x7yHMJwLuMPIee2anG8GTmMvNILzdPVwyCcD8O25uvzN1T" },
                     },
             };
-            using (var response = await client.SendAsync(request))
+
+            using (HttpResponseMessage response = await client.SendAsync(request))
             {
                 response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
+                string body = await response.Content.ReadAsStringAsync();
                 GeniusSongs result = JsonSerializer.Deserialize<GeniusSongs>(body);
                 return result;
             }
@@ -38,21 +41,26 @@ namespace musicsearch.Http
         
         public static async Task<string> GetSpotifyAsync(string uri)
         {
-       
-            var client = new HttpClient();
-            var request = new HttpRequestMessage
+            HttpClient client = new HttpClient();
+            
+            TokenResponse token = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = "https://accounts.spotify.com/api/token",
+                ClientId = "9ff81ac53e1a4aebbdaae52df059499a",
+                ClientSecret = "dc34328e3a37437e87e010dd0c91d847",
+                GrantType  = "client_credentials"
+            });
+
+            HttpRequestMessage request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(uri),
-                Headers =
-                    {
-                        { "Authorization", "Bearer BQBsAtZIEoLc3LNWp19V6KDPOMYhLP3o-QJz-59gZ9PyREC1N6Gnz6Ka2IyykeUwmWcFmKgkBOTKlohdqA99LrGWhUXy5eZt8vfytbGPOBFq8GPu3X6mRlNmKHRYjaWP01FUQZcBuvBh4MhO7rPhGtVXahe-krK2Y5LjI97l3cua" },
-                    },
+                Headers = {{ "Authorization", $"Bearer {token.AccessToken}" }}
             };
-            using (var response = await client.SendAsync(request))
+            
+            using (HttpResponseMessage response = await client.SendAsync(request))
             {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
+                string body = await response.Content.ReadAsStringAsync();
                 return body;
             }
         }
