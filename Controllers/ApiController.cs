@@ -22,27 +22,13 @@ namespace musicsearch.Controllers
         }
 
         [HttpGet]
-        [Route("spotify")]
-        public async Task<string> GetSpotifyData()
-        {
-            var data = await api.GetSpotifyAsync("https://api.spotify.com/v1/search?q=thriller&type=track");
-            return data;
-        }
-
-        [HttpGet]
         [Route("genius")]
-        public string GetGeniusData()
+        public async Task<string> GetGeniusData()
         {
             //var data = await api.GetGeniusAsync();
-            var data = GeniusDataModel.setNewObj();
+            var data = await GeniusDataModel.setNewObj();
             return data;
         }
-        /* Endpoint käyttäjälle
-        [HttpGet]
-        [Route]
-        public string GetAllData()
-        {
-
-        }*/
+        
     }
 }

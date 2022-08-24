@@ -26,7 +26,8 @@ namespace musicsearch.Models
             var result = api.GetGeniusAsync();
 
             List<GeniusDataModel> geniusList = new List<GeniusDataModel>();
-
+            
+            
             for (int i = 0; i < result.Result.response.hits.Length; i++)
             {
                 GeniusDataModel newOlio = new GeniusDataModel();
@@ -36,31 +37,29 @@ namespace musicsearch.Models
                 newOlio.Hotti = result.Result.response.hits[i].result.stats.hot;
                 newOlio.JulkaisuVuosi = result.Result.response.hits[i].result.release_date_components.year; //exception jos on null
 
-                string spotifyApiCallUrl = String.Format($"https://api.spotify.com/v1/search?q={0}%20{1}&type=track",
-                    newOlio.ArtistinNimi.Trim().Replace(" ", "%20"),
-                    newOlio.BiisinNimi.Trim().Replace(" ", "%20"));
-
-                //https://api.spotify.com/v1/search?q=billie%20jean%20chris%20cornell&type=track
-
-                SpotifyJSON spotifyData = await api.GetSpotifyAsync(spotifyApiCallUrl);
-
-                newOlio.WebPlayerUrl = spotifyData.tracks.items[0].external_urls.spotify;
-                newOlio.EmbedUri = spotifyData.tracks.items[0].uri;
-                newOlio.Album = spotifyData.tracks.items[0].album.name;
-
                 geniusList.Add(newOlio);
             }
+
+
             return JsonSerializer.Serialize(geniusList);
         }
+
+        public static async Task<string> appendObjectWithSpotifyData(List<GeniusDataModel> listFromGenius)
+        {
+            string test = default;
+            foreach (GeniusDataModel item in listFromGenius)
+            {
+                string spotifyApiCallUrl = String.Format(@"api.spotify.com/v1/search?q=" +item.ArtistinNimi+ @"&type=track");
+
+                SpotifyJSON spotifyData = await api.GetSpotifyAsync("https://api.spotify.com/v1/search?q=paranoid&type=track&limit=1");
+
+                item.WebPlayerUrl = spotifyData.tracks.items[0].external_urls.spotify;
+                item.EmbedUri = spotifyData.tracks.items[0].uri;
+                item.Album = spotifyData.tracks.items[0].album.name;
+            }
+            return test;
+        }
     }
-
-    //public class SpotifyDataModel
-    //{
-    //    public string WebPlayerUrl { get; set; }
-    //    public string EmbedUri { get; set; }
-    //    public string Album { get; set; }
-    //}
 }
-
     
 
