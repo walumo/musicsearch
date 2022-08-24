@@ -34,7 +34,7 @@ namespace musicsearch.Controllers
         public string GetGeniusData()
         {
             //var data = await api.GetGeniusAsync();
-            var data = DataModel.setNewObj();
+            var data = GeniusDataModel.setNewObj();
             return data;
         }
         /* Endpoint käyttäjälle
