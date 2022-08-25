@@ -9,8 +9,8 @@ namespace musicsearch.Models
 {
     public class DBmodel
     {
-        //[JsonProperty(PropertyName = "id")]
-        //public string Id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "Artist")]
         public string Artist { get; set; }
