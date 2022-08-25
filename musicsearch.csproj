@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.30.0" />
   </ItemGroup>
 
 
