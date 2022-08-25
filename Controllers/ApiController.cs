@@ -15,10 +15,13 @@ namespace musicsearch.Controllers
     public class ApiController : ControllerBase
     {
         private readonly ILogger<ApiController> _logger;
+        private readonly ICosmosDbService _cosmosDbService;
 
-        public ApiController(ILogger<ApiController> logger)
+
+        public ApiController(ILogger<ApiController> logger, ICosmosDbService cosmosDbService)
         {
             _logger = logger;
+            _cosmosDbService = cosmosDbService ?? throw new ArgumentNullException(nameof(cosmosDbService));
         }
 
         [HttpGet]
@@ -28,11 +31,6 @@ namespace musicsearch.Controllers
             return await GeniusDataModel.GetAllDataAsStrincAsync(q);
         }
 
-        private readonly ICosmosDbService _cosmosDbService;
-        public ApiController(ICosmosDbService cosmosDbService)
-        {
-            _cosmosDbService = cosmosDbService ?? throw new ArgumentNullException(nameof(cosmosDbService));
-        }
 
 
 
@@ -57,7 +55,7 @@ namespace musicsearch.Controllers
             //item.Longitude = "456";
             //await _cosmosDbService.AddAsync(item);
 
-            return item.Artist + item.Song;
+            return String.Format("Post request body data: {0}, {1}, {2}, {3} ", item.Artist, item.Song, item.Latitude, item.Longitude);
         }
 
 
