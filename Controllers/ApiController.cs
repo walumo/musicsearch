@@ -34,5 +34,17 @@ namespace musicsearch.Controllers
             _cosmosDbService = cosmosDbService ?? throw new ArgumentNullException(nameof(cosmosDbService));
         }
 
+    
+
+        // POST api/items
+        [HttpPost]
+        [Route("logger")]
+        public async Task Create([FromBody] DBmodel item)
+        {
+            item.Id = Guid.NewGuid().ToString();
+            await _cosmosDbService.AddAsync(item);
+        }
+
+   
     }
 }
