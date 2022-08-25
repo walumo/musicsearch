@@ -22,7 +22,7 @@ namespace musicsearch.DBinterface
 
         public async Task AddAsync(DBmodel item)
         {
-            await _container.CreateItemAsync(item, new PartitionKey(item.Id));
+            await _container.CreateItemAsync(item);
         }
 
         public async Task<IEnumerable<DBmodel>> GetMultipleAsync(string queryString)

@@ -26,38 +26,26 @@ namespace musicsearch.Controllers
 
         [HttpGet]
         [Route("songs")]
-        public async Task<string> GetGeniusData(string q)
+        public async Task<string> Get(string q)
         {
             return await GeniusDataModel.GetAllDataAsStrincAsync(q);
         }
 
+        //POST Api/logger for logging user searches into CosmosDB
+       [HttpPost]
+       [Route("logger")]
+        public async Task Create([FromBody] DBmodel item)
+        {
+            item.Id = Guid.NewGuid().ToString();
+            await _cosmosDbService.AddAsync(item);
+        }
 
-
-
-        // POST api/items
-        //[HttpPost]
-        //[Route("logger")]
-        //public async Task Create([FromBody] DBmodel item)
-        //{
-        //    item.Id = Guid.NewGuid().ToString();
-        //    await _cosmosDbService.AddAsync(item);
-        //}
-
+        //POST test-endpoint for frontend testing
         [HttpPost]
         [Route("loggertest")]
         public async Task<string> Test([FromBody] DBmodel item)
         {
-            //DBmodel item = new DBmodel();
-            //item.Id = Guid.NewGuid().ToString();
-            //item.Artist = "Test-artist";
-            //item.Song = "Test-Song";
-            //item.Latitude = "123";
-            //item.Longitude = "456";
-            //await _cosmosDbService.AddAsync(item);
-
             return String.Format("Post request body data: {0}, {1}, {2}, {3} ", item.Artist, item.Song, item.Latitude, item.Longitude);
         }
-
-
     }
 }
