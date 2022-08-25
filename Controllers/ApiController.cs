@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using musicsearch.Models;
+using musicsearch.DBinterface;
 
 namespace musicsearch.Controllers
 {
@@ -26,5 +27,12 @@ namespace musicsearch.Controllers
         {
             return await GeniusDataModel.GetAllDataAsStrincAsync(q);
         }
+        
+        private readonly ICosmosDbService _cosmosDbService;
+        public ApiController(ICosmosDbService cosmosDbService)
+        {
+            _cosmosDbService = cosmosDbService ?? throw new ArgumentNullException(nameof(cosmosDbService));
+        }
+
     }
 }
