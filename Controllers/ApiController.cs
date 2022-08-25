@@ -27,24 +27,37 @@ namespace musicsearch.Controllers
         {
             return await GeniusDataModel.GetAllDataAsStrincAsync(q);
         }
-        
+
         private readonly ICosmosDbService _cosmosDbService;
         public ApiController(ICosmosDbService cosmosDbService)
         {
             _cosmosDbService = cosmosDbService ?? throw new ArgumentNullException(nameof(cosmosDbService));
         }
 
-    
+
 
         // POST api/items
+        //[HttpPost]
+        //[Route("logger")]
+        //public async Task Create([FromBody] DBmodel item)
+        //{
+        //    item.Id = Guid.NewGuid().ToString();
+        //    await _cosmosDbService.AddAsync(item);
+        //}
+
         [HttpPost]
-        [Route("logger")]
-        public async Task Create([FromBody] DBmodel item)
+        [Route("loggertest")]
+        public async Task test()
         {
+            DBmodel item = new DBmodel();
             item.Id = Guid.NewGuid().ToString();
+            item.Artist = "Test-artist";
+            item.Song = "Test-Song";
+            item.Latitude = "123";
+            item.Longitude = "456";
             await _cosmosDbService.AddAsync(item);
         }
 
-   
+
     }
 }
