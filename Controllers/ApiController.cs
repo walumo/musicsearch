@@ -47,15 +47,17 @@ namespace musicsearch.Controllers
 
         [HttpPost]
         [Route("loggertest")]
-        public async Task test()
+        public async Task<string> Test([FromBody] DBmodel item)
         {
-            DBmodel item = new DBmodel();
-            item.Id = Guid.NewGuid().ToString();
-            item.Artist = "Test-artist";
-            item.Song = "Test-Song";
-            item.Latitude = "123";
-            item.Longitude = "456";
-            await _cosmosDbService.AddAsync(item);
+            //DBmodel item = new DBmodel();
+            //item.Id = Guid.NewGuid().ToString();
+            //item.Artist = "Test-artist";
+            //item.Song = "Test-Song";
+            //item.Latitude = "123";
+            //item.Longitude = "456";
+            //await _cosmosDbService.AddAsync(item);
+
+            return item.Artist + item.Song;
         }
 
 
