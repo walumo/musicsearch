@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace musicsearch.Models
 {
+    #nullable enable annotations
     public class DBmodel
     {
         [JsonProperty(PropertyName = "id")]
@@ -23,7 +24,5 @@ namespace musicsearch.Models
 
         [JsonProperty(PropertyName = "Longitude")]
         public string? Longitude { get; set; } = "0";
-
-
     }
 }

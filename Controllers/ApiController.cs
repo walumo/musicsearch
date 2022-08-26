@@ -39,13 +39,5 @@ namespace musicsearch.Controllers
             item.Id = Guid.NewGuid().ToString();
             await _cosmosDbService.AddAsync(item);
         }
-
-        //POST test-endpoint for frontend testing
-        [HttpPost]
-        [Route("loggertest")]
-        public async Task<string> Test([FromBody] DBmodel item)
-        {
-            return String.Format("Post request body data: {0}, {1}, {2}, {3} ", item.Artist, item.Song, item.Latitude, item.Longitude);
-        }
     }
 }

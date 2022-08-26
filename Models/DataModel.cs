@@ -12,16 +12,18 @@ namespace musicsearch.Models
         public string Track { get; set; }
         public string Image { get; set; }
         public bool Hot { get; set; }
-        //public int? ReleaseYear { get; set; }
+        public string? ReleaseYear { get; set; }
         public string WebPlayerUrl { get; set; }
         public string EmbedUri { get; set; }
         public string Album { get; set; }
 
 
 
-        public static async Task<string> GetAllDataAsStrincAsync(string searchString)
+        public static Task<string> GetAllDataAsStrincAsync(string searchString)
         {
-
+            //src={process.env.PUBLIC_URL+ url} <- nocover imagen path
+            string blankSongImageUrl = "/Resources/nocover.png";
+            string notAvailable = "N/A";
             var result = api.GetGeniusAsync(searchString);
 
             List<GeniusDataModel> geniusList = new List<GeniusDataModel>();
@@ -29,17 +31,52 @@ namespace musicsearch.Models
 
             for (int i = 0; i < result.Result.response.hits.Length; i++)
             {
-                GeniusDataModel newOlio = new GeniusDataModel();
-                newOlio.Artist = result.Result.response.hits[i].result.artist_names;
-                newOlio.Track = result.Result.response.hits[i].result.title;
-                newOlio.Image = result.Result.response.hits[i].result.header_image_url;
-                newOlio.Hot = result.Result.response.hits[i].result.stats.hot;
-                //newOlio.ReleaseYear = result.Result.response.hits[i].result.release_date_components.year; //exception jos on null
+                GeniusDataModel song = new GeniusDataModel();
+                try
+                {
+                    song.Artist = result.Result.response.hits[i].result.artist_names;
+                }
+                catch (Exception)
+                {
+                    song.Artist = notAvailable;
+                }
+                try
+                {
+                    song.Track = result.Result.response.hits[i].result.title;
+                }
+                catch (Exception)
+                {
+                    song.Track = notAvailable;
+                }
+                try
+                {
+                    song.Image = result.Result.response.hits[i].result.header_image_url;
+                }
+                catch (Exception)
+                {
+                    song.Image = blankSongImageUrl;
+                }
+                try
+                {
+                    song.Hot = result.Result.response.hits[i].result.stats.hot;
+                }
+                catch (Exception)
+                {
+                    song.Hot = false;
+                }
+                try
+                {
+                    song.ReleaseYear = result.Result.response.hits[i].result.release_date_components.year.ToString();
 
-                geniusList.Add(newOlio);
+                }
+                catch (Exception)
+                {
+                    song.ReleaseYear = notAvailable;
+                }
+                geniusList.Add(song);
             }
 
-            return JsonSerializer.Serialize(appendObjectWithSpotifyData(geniusList));
+            return Task.FromResult(JsonSerializer.Serialize(appendObjectWithSpotifyData(geniusList)));
         }
 
         public static async Task<List<GeniusDataModel>> appendObjectWithSpotifyData(List<GeniusDataModel> listFromGenius)
