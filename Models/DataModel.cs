@@ -12,7 +12,7 @@ namespace musicsearch.Models
         public string Track { get; set; }
         public string Image { get; set; }
         public bool Hot { get; set; }
-        public string? ReleaseYear { get; set; }
+        public string ReleaseYear { get; set; }
         public string WebPlayerUrl { get; set; }
         public string EmbedUri { get; set; }
         public string Album { get; set; }
@@ -21,8 +21,7 @@ namespace musicsearch.Models
 
         public static Task<string> GetAllDataAsStrincAsync(string searchString)
         {
-            //src={process.env.PUBLIC_URL+ url} <- nocover imagen path
-            string blankSongImageUrl = "/Resources/nocover.png";
+            string blankSongImageUrl = "process.env.PUBLIC_URL + '/Resources/nocover.png'";
             string notAvailable = "N/A";
             var result = api.GetGeniusAsync(searchString);
 
@@ -83,15 +82,39 @@ namespace musicsearch.Models
         {
             foreach (GeniusDataModel item in listFromGenius)
             {
+                string spotifyWebPlayerLink = "https://open.spotify.com/";
+                string notAvailable = "N/A";
+                string playBlackSabbathParanoid = "spotify:track:1Y373MqadDRtclJNdnUXVc";
                 string songQuery = item.Artist + " " + item.Track;
                 Uri spotifyApiCallUrl = new Uri(@"https://api.spotify.com/v1/search?q=" + songQuery + @"&type=track&limit=1");
                 
                 SpotifyJSON spotifyData = await api.GetSpotifyAsync(spotifyApiCallUrl);
 
-                item.WebPlayerUrl = spotifyData.tracks.items[0].external_urls.spotify;
-                item.EmbedUri = spotifyData.tracks.items[0].uri;
-                item.Album = spotifyData.tracks.items[0].album.name;
-            }
+                try
+                {
+                    item.WebPlayerUrl = spotifyData.tracks.items[0].external_urls.spotify;
+                }
+                catch (Exception)
+                {
+                    item.WebPlayerUrl = spotifyWebPlayerLink;
+                }
+                try
+                {
+                    item.EmbedUri = spotifyData.tracks.items[0].uri;
+                }
+                catch (Exception)
+                {
+                    item.EmbedUri = playBlackSabbathParanoid;
+                }
+                try
+                {
+                    item.Album = spotifyData.tracks.items[0].album.name;
+
+                }
+                catch (Exception)
+                {
+                    item.Album = notAvailable;
+                }            }
             return listFromGenius;
         }
     }
