@@ -40,7 +40,7 @@ namespace musicsearch
 
             var client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
             var database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
-            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/partitionKey");
+            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
 
             var cosmosDbService = new CosmosDbService(client, databaseName, containerName);
             return cosmosDbService;
