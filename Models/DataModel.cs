@@ -114,7 +114,8 @@ namespace musicsearch.Models
                 catch (Exception)
                 {
                     item.Album = notAvailable;
-                }            }
+                }            
+            }
             return listFromGenius;
         }
     }
